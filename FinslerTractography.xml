@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+  <category>Diffusion.Diffusion Weighted Images</category>
+  <title>Finsler Tractography based on HARDI</title>
+  <description><![CDATA[This module uses the fast-sweeping algorithm to find the connectivity from a set of seeding points to each voxel in the input DWI volume (or inside the mask, if provided).\n This connectivity is the Finslerian minimum cost of arriving at each voxel from the seeds, following the trajectory of the estimated pathways, divided by the pathway's Euclidean length. The cost is computed as the integral along the pathway of a local directional cost computed from the ODF or some other HARDI-related measurement. An additional angle penalty is added to discourage sharp turns. A complete description of the original algorithm may be found in:\n J. Melonakos, E. Pichon, S. Angenent, A. Tannenbaum, "Finsler Active Contours". IEEE Transactions on Pattern Analysis and Machine Intelligence, 30(3):412-423. March 2008.\n A background-removal mask can be used to accelerate computations. Optionally, the algorithm provides at each voxel an estimation of the vector tangent to the optimal pathway at that point (arrival direction).]]></description>
+  <version>0.0.2.$Revision: 1 $(alpha)</version>
+  <documentation-url></documentation-url>
+  <license></license>
+  <contributor><![CDATA[Antonio Tristan Vega, Peter Savadjiev, T.C.J. (Tom) Dela Haije, Demian Wassermann, Carl-Fredrik Westin. The directional iterators were contributed by Luis Ibanez (Kitware).]]></contributor>
+  <acknowledgements><![CDATA[Supported by NIH grants R01 MH092862 (PIs Westin and Verma), R01 MH074794 (PI Westin) and P41 EB015902 (PI Kikinis), as well as by grant number FMECD-2010/71131616E from the Spanish Ministry of Education/Fulbright Committee.]]></acknowledgements>
+
+  
+  
+  <parameters advanced="false">
+  
+    <label>Basic parameters</label>
+    <description>Basic parameters for Finsler Tractography</description>
+    
+    <integer>
+      <name>iMaxIters</name>
+      <label>Max. iterations</label>
+      <longflag>--mi</longflag>
+      <description>The maximum number of iterations of the fast-sweeping algorithm.</description>
+      <default>10</default>
+      <constraints>
+        <minimum>1</minimum>
+        <maximum>50</maximum>
+        <step>1</step>
+      </constraints>
+    </integer>
+
+    <integer>
+      <name>iCostFraction</name>
+      <label>Cost Fraction (log)</label>
+      <longflag>--cf</longflag>
+      <description>If the total change in the arrival times is Cost Fraction times the initial one, we consider fast-sweeping has converged. Note you must introduce the logarithm of this value, so the default -3 is in fact 10^{-3}.</description>
+      <default>-3</default>
+      <constraints>
+        <minimum>-8</minimum>
+        <maximum>-1</maximum>
+        <step>1</step>
+      </constraints>
+    </integer>
+
+    <float>
+      <name>iLambda</name>
+      <label>Lambda</label>
+      <longflag>--la</longflag>
+      <description>The Tikhonov regularization parameter when we fit Spherical Harmonics.</description>
+      <default>0.006</default>
+      <constraints>
+        <minimum>0</minimum>
+        <maximum>0.010</maximum>
+      </constraints>
+    </float>
+
+    <integer>
+      <name>iLSH</name>
+      <label>L-SH</label>
+      <longflag>--lsh</longflag>
+      <description>The maximum degree considered for the Spherical Harmonics decomposition (must de an even integer between 0 and 8).</description>
+      <default>6</default>
+      <constraints>
+        <minimum>0</minimum>
+        <maximum>8</maximum>
+        <step>2</step>
+      </constraints>
+    </integer>
+    
+    <integer>
+      <name>iLabel</name>
+      <label>Label</label>
+      <longflag>--label</longflag>
+      <description>If the image with the seeding regions is a multi-label image, this integer tells the algorithm which label should be used as seeding region.</description>
+      <default>1</default>
+    </integer>
+    
+  </parameters>
+  
+  
+  <parameters advanced="true">
+  
+    <label>Advanced parameters</label>
+    <description>Advanced parameters for Finsler Tractography</description>
+    
+    <string-enumeration>
+      <name>iTypeOfLocalCost</name>
+      <label>Cost</label>
+      <longflag>--lcc</longflag>
+      <description>How the local cost of arriving to the current voxel from each possible discretized direction is computed from the HARDI data. The default is the original cost proposed by J. Melonakos et al. With "Phi" we mean the ODF and with "Psi" the OPDF (solid-angle ODF).</description>
+      <element>(E(q)/Phi(r))^3</element>
+      <element>1/Psi(r)^3</element>
+      <element>1/ADC/Psi^3</element>
+      <element>E(t|R)</element>
+      <element>-log(Psi(r))</element>
+      <element>1</element>
+      <element>test</element>
+      <default>1/Psi(r)^3</default>
+    </string-enumeration>
+    
+    <string-enumeration>
+      <name>iNumDirs</name>
+      <label>Directions</label>
+      <longflag>--numdir</longflag>
+      <description>How many discretized directions are considered to compute the optimum arrival direction. With "26" we choose the directions corresponding to the 3x3x3 nearest neighbors. With "60" we use a set of 60 (30 unique and their 30 antipodes) preselected directions. With "all" we use the same directions as in the DWI volume. Note using too many directions will drastically increase the computation time.</description>
+      <element>26</element>
+      <element>60</element>
+      <element>all</element>
+      <default>26</default>
+    </string-enumeration>
+    
+    <!-- Update Nov. 2014: threading is disabled for now until threading functionality is fixed 
+         Also, to comment out this tag I had to remove the double dash from the longflag
+    <boolean>
+      <name>iUseThreads</name>
+      <label>Use threads</label>
+      <longflag>useThreads</longflag>
+      <description>The original fast-sweeping algorithm does not use multi-threading. It may be proved that the multi-threaded version also converges. Though it requires slightly more iterations, each iteration is drastically faster in a multiple core machine.</description>
+      <default>true</default>
+    </boolean>
+    -->
+
+    <boolean>
+      <name>iAcceleration</name>
+      <label>Use accelerated iterations</label>
+      <longflag>--accel</longflag>
+      <description>If this flag is set, fast sweeping uses a further acceleration: from a given iteration number, it only checks for arrival directions which were updated earlier than the current voxel in the current swept (causality) direction. This typically increases the number of iterations required, but each iteration is in the order of 8 times faster.</description>
+      <default>true</default>
+    </boolean>
+    
+    <integer>
+      <name>iAccelerateIter</name>
+      <label>Start accelerated iterations</label>
+      <longflag>--accelIter</longflag>
+      <description>(See the help on the --accel parameter: Use accelerated iterations). This is the first iteration that will use the acceleration in fast sweeping. Note it is allowed only from the fourth one (i.e. #3), to make sure that the seeding points are rapidly propagated to the whole volume.</description>
+      <default>3</default>
+      <constraints>
+        <minimum>3</minimum>
+        <maximum>50</maximum>
+        <step>1</step>
+      </constraints>
+    </integer>
+
+  </parameters>
+
+  <parameters advanced="false">
+    <label>IO</label>
+    <description>Input/output parameters</description>
+    
+    <image type="diffusion-weighted">
+      <name>inputDWI</name>
+      <label>Input DWI volume</label>
+      <channel>input</channel>
+      <index>0</index>
+      <description>Input DWI volume. Consider denoising it before running Finsler tractography.</description>
+    </image>
+    
+    <image type="label">
+      <name>inputSeeds</name>
+      <label>Input seeds</label>
+      <channel>input</channel>
+      <index>1</index>
+      <description>Put non-zeros where you want seeding points to be placed.</description>
+    </image>
+    
+    <image type="scalar">
+      <name>outputCost</name>
+      <label>Output scalar volume</label>
+      <channel>output</channel>
+      <index>2</index>
+      <description>Output volume of scalars. The value at each voxel is the cost of reaching it from the seeding points. It is STRONGLY recommended to save this volume in .nrrd or .nhdr format.</description>
+    </image>
+
+    <image type="scalar">
+      <name>outputConnMap</name>
+      <label>Output connectivity map (scalar volume)</label>
+      <channel>output</channel>
+      <index>3</index>
+      <description>Output volume of the connectivity map.</description>
+    </image>
+    
+ </parameters>
+ 
+ <parameters advanced="false">
+    <label>Optional IO</label>
+    <description>Input/output parameters which are only recommended</description>
+    
+    <image type="label">
+      <name>inputMask</name>
+      <label>Input mask</label>
+      <longflag>--maskImage</longflag>
+      <channel>input</channel>
+      <description>Input mask the same size as inputDWI (this is optional but strongly recommended). The cost outside this mask is assumed to be infinite. NOTE: If the mask is not connected, infinite values of the cost will appear in the white islands without seeding points.</description>
+    </image>
+    
+    <image type="vector">
+      <name>outputDirections</name>
+      <label>Output directions volume</label>
+      <longflag>--directionsImage</longflag>
+      <channel>output</channel>
+      <description>Output volume of arrival directions (optional). Each voxel is a unitary vector representing the direction the current voxel was reached from.</description>
+    </image>
+
+  </parameters>
+
+</executable>

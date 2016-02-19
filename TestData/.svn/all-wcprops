@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/finslertract/!svn/ver/37/TestData
+END
+sampleSeeds.nii.gz
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/finslertract/!svn/ver/28/TestData/sampleSeeds.nii.gz
+END
+sampleFibers.vtp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/finslertract/!svn/ver/37/TestData/sampleFibers.vtp
+END
+finsler_distance_map.nii.gz
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/finslertract/!svn/ver/1/TestData/finsler_distance_map.nii.gz
+END
+dumbSeeds.nii.gz
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/finslertract/!svn/ver/1/TestData/dumbSeeds.nii.gz
+END
+dumbDWIData.nrrd
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/finslertract/!svn/ver/1/TestData/dumbDWIData.nrrd
+END
+sampleDWI.nrrd
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/finslertract/!svn/ver/1/TestData/sampleDWI.nrrd
+END
+sampleFinslerCosts.nii.gz
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/finslertract/!svn/ver/37/TestData/sampleFinslerCosts.nii.gz
+END

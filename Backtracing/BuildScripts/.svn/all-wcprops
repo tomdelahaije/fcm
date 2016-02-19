@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/finslertract/!svn/ver/38/Backtracing/BuildScripts
+END
+CMakeSTANDALONE3BuildMacros.cmake
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/finslertract/!svn/ver/38/Backtracing/BuildScripts/CMakeSTANDALONE3BuildMacros.cmake
+END
+CMakeBuildMacros.cmake
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/finslertract/!svn/ver/15/Backtracing/BuildScripts/CMakeBuildMacros.cmake
+END
+PreventInSourceBuilds.cmake
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/finslertract/!svn/ver/15/Backtracing/BuildScripts/PreventInSourceBuilds.cmake
+END

@@ -1,0 +1,73 @@
+8
+
+dir
+64
+https://www.nitrc.org/svn/finslertract/SlicerExecutionModel
+https://www.nitrc.org/svn/finslertract
+
+
+
+2012-11-08T21:49:37.817943Z
+64
+atriveg
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+32ee3299-989e-0410-8178-8713df12851e
+
+itkPluginFilterWatcher.h
+file
+
+
+
+
+2012-11-09T00:32:29.000000Z
+008c3e9e79d5459a4bcea92ad0d4bdd2
+2011-09-04T00:48:57.823663Z
+35
+atriveg
+
+tclap
+dir
+
+ModuleDescriptionParser
+dir
+
+itkPluginUtilities.h
+file
+
+
+
+
+2012-11-09T00:32:29.000000Z
+1993e00b2b126c01cc5dd1fab1edc3f8
+2012-11-08T21:49:37.817943Z
+64
+atriveg
+
+GenerateCLP
+dir
+
+CMakeLists.txt
+file
+
+
+
+
+2012-11-09T00:32:29.000000Z
+111b8ba2a5fd5ac192828fcf44e9182d
+2011-05-26T13:39:06.596940Z
+4
+atriveg
+

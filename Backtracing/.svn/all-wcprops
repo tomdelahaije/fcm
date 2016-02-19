@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/finslertract/!svn/ver/63/Backtracing
+END
+itkVTKRungeKuttaFinslerIntegration.txx
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/finslertract/!svn/ver/63/Backtracing/itkVTKRungeKuttaFinslerIntegration.txx
+END
+FinslerBacktracing_Compare.cxx
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/finslertract/!svn/ver/46/Backtracing/FinslerBacktracing_Compare.cxx
+END
+itkVTKRungeKuttaFinslerIntegration.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/finslertract/!svn/ver/63/Backtracing/itkVTKRungeKuttaFinslerIntegration.h
+END
+FinslerBacktracing.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/finslertract/!svn/ver/63/Backtracing/FinslerBacktracing.xml
+END
+FinslerBacktracing.cxx
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/finslertract/!svn/ver/63/Backtracing/FinslerBacktracing.cxx
+END
+ModuleLogo.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/finslertract/!svn/ver/15/Backtracing/ModuleLogo.h
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/finslertract/!svn/ver/60/Backtracing/CMakeLists.txt
+END

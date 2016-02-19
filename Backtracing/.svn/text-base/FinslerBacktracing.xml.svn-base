@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+  <category>Diffusion.Diffusion Weighted Images</category>
+  <title>Finsler Backtracing based on HARDI</title>
+  <description>
+This module uses the output of the Finsler tractography module to actually trace the estimated fiber bundles. Note that you should have "Finsler Tractography based on HARDI" installed and working in order to be able to use the present module (see the documentation therein for more details on the Finsler Tractography method).\n\nThe nomenclature for this module can be a little confusing: contrary to "Labelmap seeding", this algorithm does not ask for a seeding region. This is because the seeding region is provided when calculating the costs map and the optimal arrival directions with "Finsler Tractography based on HARDI". Hence, the seeding region (and also the hypothetic mask used) is now implicit in the costs map. In the present module, we have to choose instead a set of "target points": the fiber bundles are traced from these target points to the seeding region. Accordingly, no stopping criterion is needed: we stop tracking the bundle just when we hit either the seeding region or a point outside the mask (if used). Nonetheless, we perform some "sanity checks", avoiding fibers with abnormal length or with excessive curvature.\n\nNOTE: If compiled as a stand-alone, this module needs to be linked against both ITK and VTK\n\nNOTE2: If compiled as a stand-alone, the fiber bundles computed are written to disk as a VTK file (.vtp/.vtk) that can be loaded with 3D-Slicer or FSL. IMPORTANT: The fibers are always stored in that file in RAS coordinates..
+  </description>
+  <version>0.0.1.$Revision: 1 $(alpha)</version>
+  <documentation-url>http://www.slicer.org/slicerWiki/index.php/Modules:FinslerBacktracing-Documentation-3.6</documentation-url>
+  <license></license>
+  <contributor>Antonio Tristan-Vega, Demian Wassermann, Carl-Fredrik Westin. 
+  </contributor>
+  <acknowledgements>Supported by grant number FMECD-2010/71131616E from the Spanish Ministry of Education/Fulbright Committee
+  </acknowledgements>
+  
+  
+  <parameters advanced="false">
+  
+    <label>Basic parameters</label>
+    <description>Basic parameters for Finsler Backtracing</description>
+    
+    <double>
+        <name>iMinimumLength</name>
+        <label>Minimum Length</label>
+        <longflag>--minimumlength</longflag>
+        <description>Minimum length of the fibers (in mm). Any traced fiber with a length below this threshold will be removed.</description>
+        <default>10</default>
+        <constraints>
+            <minimum>0</minimum>
+            <maximum>200</maximum>
+            <step>1</step>
+        </constraints>
+    </double>
+    
+    <double>
+        <name>iMaximumLength</name>
+        <label>Maximum Length</label>
+        <longflag>--maximumlength</longflag>
+        <description>Maximum length of the fibers (in mm). Any traced fiber with a length below this threshold will be removed.</description>
+        <default>800</default>
+        <constraints>
+            <minimum>0</minimum>
+            <maximum>2000</maximum>
+            <step>1</step>
+        </constraints>
+    </double>
+    
+    <double>
+        <name>iStoppingCurvature</name>
+        <label>Stopping Track Curvature</label>
+        <description>Tractography will stop if radius of curvature becomes smaller than this number (units are degrees per mm).</description>
+        <longflag>--stoppingCurvature</longflag>
+        <default>0.8</default>
+        <constraints>
+            <minimum>0</minimum>
+            <maximum>10</maximum>
+            <step>0.1</step>
+        </constraints>
+    </double> 
+    
+    <double>
+        <name>iStepLength</name>
+        <label>Integration Step Length (mm)</label>
+        <description>Distance between points on the same fiber in mm (for the Runge-Kutta integration method).</description>
+        <longflag>--stepLength</longflag>
+        <default>0.5</default>
+        <constraints>
+            <minimum>0.0</minimum>
+            <maximum>10</maximum>
+            <step>0.1</step>
+        </constraints>
+    </double>
+    
+    <integer>
+      <name>iLabel</name>
+      <label>Label</label>
+      <longflag>--label</longflag>
+      <description>If the image with the target points is a multi-label image, this integer tells the algorithm which label should be used.</description>
+      <default>1</default>
+    </integer>
+    
+  </parameters>
+
+  <parameters advanced="false">
+    <label>IO</label>
+    <description>Input/output parameters</description>
+    
+    <image type="vector">
+      <name>inputDirections</name>
+      <label>Arrival directions volume</label>
+      <channel>input</channel>
+      <index>0</index>
+      <description>This is the vector field integrated to trace the fiber bundles. It should be generated with the Finsler Tractography based on HARDI module (this is the optional "Output volume of arrival directions" therein, so make sure you create this volume to be able to use the present module).</description>
+    </image>
+    
+    <image type="scalar">
+      <name>inputCost</name>
+      <label>Cost map</label>
+      <channel>input</channel>
+      <index>1</index>
+      <description>This is the volume of optimal arrival times as generated by the Finsler Tractography based on HARDI module (the "Output volume of scalars"). This map is used as a stopping criterion, since we stop tracing the fibers either when we reach the seeding region or a point outside the mask.</description>
+    </image>
+    
+    <image type="label">
+      <name>inputSeeds</name>
+      <label>Input seeds</label>
+      <channel>input</channel>
+      <index>2</index>
+      <description>This maps tells the algorithm which points you want to start the tracing at. This volume contains integer labels; the "label" parameter can be used to select the particular region used to compute the fibers from.</description>
+    </image>
+    
+    <geometry type="fiberbundle">
+      <name>outputFibers</name>
+      <label>Output Fiber Bundle</label>
+      <channel>output</channel>
+      <index>3</index>
+      <description>This is the VTK volume where the traced fiber bundles are actually stored (and loaded by the Slicer environment) upon completion of the algorithm. If your are using this program from outside of Slicer, note the extension of this file MUST BE .vtp.</description>
+    </geometry>
+    
+ </parameters>
+
+ <parameters advanced="false">
+    <label>Optional IO</label>
+    <description>Input/output parameters which may or may not be used</description>
+    
+    <image type="scalar">
+      <name>normalizedCosts</name>
+      <label>Normalized Costs</label>
+      <longflag>--normalizedCosts</longflag>
+      <channel>output</channel>
+      <description>In case this argument is provided, an output volume will be additionally produced by the module: at each target point location, the Finsler distance normalized by the arc length of the fiber bundle is placed. In case a fiber bundle cannot be normally traced (i.e. if an abnormal stop criterion is reached), a -1 will be found. For non-target points, the cost is always set to -2.</description>
+    </image>
+    
+  </parameters>
+
+
+</executable>

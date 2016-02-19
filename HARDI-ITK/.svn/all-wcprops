@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/finslertract/!svn/ver/64/HARDI-ITK
+END
+sphericalHarmonics.cxx
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/finslertract/!svn/ver/1/HARDI-ITK/sphericalHarmonics.cxx
+END
+sphericalHarmonics.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/finslertract/!svn/ver/62/HARDI-ITK/sphericalHarmonics.h
+END
+sh2hot.cxx
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/finslertract/!svn/ver/62/HARDI-ITK/sh2hot.cxx
+END
+itkComputeLocalCostFromSH.txx
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/finslertract/!svn/ver/64/HARDI-ITK/itkComputeLocalCostFromSH.txx
+END
+itkComputeSHCoefficientsFilter.txx
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/finslertract/!svn/ver/61/HARDI-ITK/itkComputeSHCoefficientsFilter.txx
+END
+GenerateDeconvolutionFactors.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/finslertract/!svn/ver/61/HARDI-ITK/GenerateDeconvolutionFactors.h
+END
+itkComputeLocalCostFromSH.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/finslertract/!svn/ver/61/HARDI-ITK/itkComputeLocalCostFromSH.h
+END
+itkComputeSHCoefficientsFilter.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/finslertract/!svn/ver/42/HARDI-ITK/itkComputeSHCoefficientsFilter.h
+END
