@@ -449,40 +449,54 @@ void ParallelFastSweepingStep< TInputImage, TOutputImage, TVectorImage, TMaskIma
 			   // Keep the minimum cost and the corresponding argument
                if( cost<minimumCost ){
 				   
+				  //CMAX MEASURE
+				   
+				  float new_Leuc = current_Leuc/norm;
+				  if( localcost > current_Leuc){
+						new_Leuc = localcost/norm;
+				  }
+				   
+				  float new_dfac = 0.;
+				  //C MEASURE
+				  
+				  /*
+				  
 				  //Compute Euclidean length
 				  float new_Leuc = (current_Leuc + 1)/norm;
 				  
 				  //Compute curvature
 				  ///unsigned int neighbor_arg = m_ArrivalDirections->GetPixel(maxpos);
-                                  ///float dotpr = (m_NeighboringDirections[g] * m_NeighboringDirections[neighbor_arg]);
+                  ///float dotpr = (m_NeighboringDirections[g] * m_NeighboringDirections[neighbor_arg]);
                   
 
-                                  ///if(dotpr < 0) dotpr *= -1;
+                  ///if(dotpr < 0) dotpr *= -1;
                   
-                                  //float dirfactor = sqrt(2*sin(0.5*acos(.999*dotpr))*sin(0.5*acos(.999*dotpr))+1); //SR-like cost [see work of Duits]
-                                  //float dirfactor = sqrt(2)*sin(0.5*acos(.999*dotpr)); //Estimate of curvature (note zero cost for moving straight ahead!)
-                                  ///float dirfactor = 1 - 0.66*dotpr; //Linear approximation of curvature
+                  //float dirfactor = sqrt(2*sin(0.5*acos(.999*dotpr))*sin(0.5*acos(.999*dotpr))+1); //SR-like cost [see work of Duits]
+                  //float dirfactor = sqrt(2)*sin(0.5*acos(.999*dotpr)); //Estimate of curvature (note zero cost for moving straight ahead!)
+                  ///float dirfactor = 1 - 0.66*dotpr; //Linear approximation of curvature
 				  
-			       //Compute connectivity measure 1 [length*curvature]
+			      //Compute connectivity measure 1 [length*curvature]
 				  //float new_dfac = (current_dfac + localcost * dirfactor)/norm;
-                                  //float new_conn = new_dfac;
+                  //float new_conn = new_dfac;
 				  
-                              //Compute connectivity measure 2 [average speed]
-                                  //float new_dfac = 0; //DUMMY
-                                  //float new_conn = cost/new_Leuc;
+                  //Compute connectivity measure 2 [average speed]
+                  //float new_dfac = 0; //DUMMY
+                  //float new_conn = cost/new_Leuc;
                
-                              //Compute connectivity measure 3 [combi 1 and 2] (weight parameter possible)
+                  //Compute connectivity measure 3 [combi 1 and 2] (weight parameter possible)
 				  float new_dfac = 0;///(current_dfac + localcost * dirfactor)/norm;
-                                  float new_conn = sqrt(new_dfac*new_dfac + cost*cost/(new_Leuc*new_Leuc)); // + 1e-20
-			   
+                  float new_conn = sqrt(new_dfac*new_dfac + cost*cost/(new_Leuc*new_Leuc)); // + 1e-20
+				
+				  */
 				  
 			   
 				  //Assign new values
-                  minimumCost = static_cast<OutputPixelType>( cost );
+				  minimumCost = static_cast<OutputPixelType>( cost );
                   arg         = g;
 				  updated_dfac = new_dfac;
                   updated_Leuc = new_Leuc;
-                  min_conn = new_conn;
+                  min_conn = new_Leuc; // CMAX MEASURE
+				  //min_conn = new_conn; // C MEASURE
                }
             }
          }
