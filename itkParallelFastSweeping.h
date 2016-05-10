@@ -127,6 +127,9 @@ public:
    
    itkSetMacro( UseThreads, bool );
    itkGetMacro( UseThreads, bool );
+
+   itkSetMacro( UseCMean, bool );
+   itkGetMacro( UseCMean, bool );   
    
    itkSetMacro( AccelerateIter, unsigned int );
    itkGetMacro( AccelerateIter, unsigned int );
@@ -227,6 +230,8 @@ private:
    unsigned int                 m_AccelerateIter;
    /** We may choose not to use threads, as in the original algorithm */
    bool                         m_UseThreads;
+
+   bool                         m_UseCMean;
    
    unsigned int                 m_MaxIters;
    OutputPixelType              m_CostThreshold;

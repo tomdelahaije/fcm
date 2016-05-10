@@ -124,6 +124,9 @@ public:
    itkGetMacro( SplitDirection, unsigned int );
    itkGetMacro( CostChange, OutputPixelType );
 
+   itkSetMacro( CMean, bool );
+   itkGetMacro( CMean, bool );
+
 protected:
    ParallelFastSweepingStep();
    virtual ~ParallelFastSweepingStep() {}
@@ -135,8 +138,10 @@ protected:
    int SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion);
 private:
    ParallelFastSweepingStep(const Self&); // purposely not implemented
-   void operator=(const Self&);           // purposely not implemented
-  
+void operator=(const Self&);           // purposely not implemented
+
+   bool                            m_CMean          //Flag indicating whether to use the CMean version of the metric
+
    itk::Array2D<unsigned int>      m_Neighbors;     // The neighbors to use for each discretized arriving direction
    itk::Array2D<float>             m_Weights;       // The interpolation weights to use for each arriving direction
    

@@ -43,6 +43,7 @@ ParallelFastSweeping<TInputImage, TOutputImage, TMaskImage >
    m_UseAcceleration = true;
    m_AccelerateIter  = TInputImage::ImageDimension;
    m_UseThreads      = true;
+   m_UseCMean        = false;
    //-----------------------------------------------------------------------
 }
 
@@ -455,6 +456,9 @@ void ParallelFastSweeping< TInputImage, TOutputImage, TMaskImage >
    step->SetDfacMap( m_dfac ); //TOM
    step->SetLeuc( m_Leuc );
    step->SetConnMap( m_ConnMap );
+   if( m_UseCMean )
+      step->SetCMean(true);
+   
    if( m_Mask )
       step->SetMask( m_Mask );
    if( !m_UseThreads )

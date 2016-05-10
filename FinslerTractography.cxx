@@ -415,6 +415,8 @@ namespace{
         fastSweeping->SetUseThreads( 0 /* iUseThreads */ );
         // Set the input
         fastSweeping->SetInput( costsCompute->GetOutput() );
+        //Set the choice of CMax vs CMean metric
+        fastSweeping->SetUseCMean(iCmean);
         //Set the output file name
         fastSweeping->SetOutputConnMapName( outputConnMap.c_str() );
         // Set the seeding points:

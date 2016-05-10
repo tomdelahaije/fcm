@@ -74,6 +74,14 @@
       <description>If the image with the seeding regions is a multi-label image, this integer tells the algorithm which label should be used as seeding region.</description>
       <default>1</default>
     </integer>
+
+    <boolean>
+      <name>iCmean</name>
+      <label>Use Cmean metric</label>
+      <longflag>--cmean</longflag>
+      <description>By default, this program uses the CMax metric in computing the output connectivity map. Set this flag to use the CMean metric instead of CMax.</description>
+      <default>false</default>
+    </boolean>
     
   </parameters>
   
