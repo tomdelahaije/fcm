@@ -451,12 +451,14 @@ void ParallelFastSweepingStep< TInputImage, TOutputImage, TVectorImage, TMaskIma
                if( cost<minimumCost ){
 
                   float new_dfac = 0;
+                  float new_Leuc;
+                  float new_conn=0;
 
                   if( ! m_CMean)
                   {
 				  //CMAX MEASURE
 				   
-				  float new_Leuc = current_Leuc/norm;
+				  new_Leuc = current_Leuc/norm;
 				  if( localcost > current_Leuc){
 						new_Leuc = localcost/norm;
 				  }
@@ -469,10 +471,10 @@ void ParallelFastSweepingStep< TInputImage, TOutputImage, TVectorImage, TMaskIma
 				  
 				  
 				  //Compute Euclidean length
-				  float new_Leuc = (current_Leuc + 1)/norm;
+				  new_Leuc = (current_Leuc + 1)/norm;
 				  
                                   //float new_conn = sqrt(new_dfac*new_dfac + cost*cost/(new_Leuc*new_Leuc)); // + 1e-20
-                                  float new_conn = cost/new_Leuc;
+                                  new_conn = cost/new_Leuc;
 				
                   }
 				  
